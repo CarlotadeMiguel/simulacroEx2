@@ -1,13 +1,26 @@
+//src/App.jsx
+import { useState } from "react";
 import './App.css'
+import Login from "./components/Login";
+
 function App() {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600">
-        <div className="bg-white p-8 rounded-lg shadow-lg text-center">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">¡Tailwind CSS funciona! 🎉</h1>
-          <p className="text-gray-600">Si ves esto con colores y estilos bonitos, entonces Tailwind está bien configurado.</p>
-        </div>
-      </div>
-    );
+  const [token, setToken] = useState(null);
+
+  if (!token) {
+    return <Login onLogin={setToken} />;
   }
-  
-  export default App;
+
+  return (
+    <div>
+      <h1 className="text-3xl font-bold text-center mt-8">Gestor de Tareas</h1>
+      <button
+        onClick={() => setToken(null)}
+        className="absolute top-4 right-4 bg-gray-200 px-4 py-2 rounded"
+      >
+        Cerrar sesión
+      </button>
+    </div>
+  );
+}
+
+export default App;
