@@ -2,7 +2,7 @@
 import { useState } from "react";
 import axios from "../api/axios";
 
-export default function Register({ onRegister, switchToLogin }) {
+export default function Register({ onRegister, switchToLogin, onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -15,10 +15,19 @@ export default function Register({ onRegister, switchToLogin }) {
     try {
       const data = await axios.post("/auth/registro", { email, password });
       if (data.mensaje) {
-        setSuccess("Usuario registrado correctamente. Ahora puedes iniciar sesión.");
-        setTimeout(() => {
-          switchToLogin();
-        }, 1500);
+        // Login automático tras registro
+        try {
+          const loginData = await axios.post("/auth/login", { email, password });
+          if (loginData.access_token) {
+            onLogin(loginData.access_token);
+          } else {
+            setSuccess("Usuario creado, pero error al iniciar sesión.");
+            setTimeout(() => switchToLogin(), 2000);
+          }
+        } catch {
+          setSuccess("Usuario creado, pero error al iniciar sesión.");
+          setTimeout(() => switchToLogin(), 2000);
+        }
       } else {
         setError(data.error || "Error en el registro");
       }
