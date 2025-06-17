@@ -1,426 +1,445 @@
-# Simulacro Examen Módulo 2
+# Simulacro Examen Módulo 2 - Gestor de Tareas Fullstack
 
-Gestor de Tareas: aplicación fullstack con Flask (backend) y HTML+JS (frontend)  
-Desarrollado como práctica de simulacro de examen.
-
----
-
-## 📋 Tabla de Contenidos
-
-- [Descripción](#descripción)
-- [Características](#características)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Requisitos](#requisitos)
-- [Configuración y variables de entorno](#configuración-y-variables-de-entorno)
-- [Instalación y ejecución](#instalación-y-ejecución)
-  - [Backend](#backend)
-  - [Frontend](#frontend)
-- [Migraciones y base de datos](#migraciones-y-base-de-datos)
-- [API: Endpoints principales](#api-endpoints-principales)
-- [Testing](#testing)
-- [Estructura de archivos clave](#estructura-de-archivos-clave)
-- [Resolución de problemas comunes](#resolución-de-problemas-comunes)
-- [Notas y buenas prácticas](#notas-y-buenas-prácticas)
-- [Autoría](#autoría)
+Aplicación completa de gestión de tareas desarrollada con **Flask** (backend) y **React + Tailwind CSS** (frontend), implementando autenticación JWT, API REST completa y gestión de usuarios.
 
 ---
 
-## 📝 Descripción
+## 📋 Descripción del Proyecto
 
-Este proyecto implementa un **gestor de tareas** (to-do list) con un formulario para añadir tareas con título y prioridad, y una lista dinámica de tareas que se actualiza en tiempo real.
+Este proyecto implementa un **sistema completo de gestión de tareas** que permite a los usuarios:
 
-### Características principales:
-- **Backend**: Flask con SQLAlchemy, Flask-Migrate, Blueprints y CORS
-- **Frontend**: HTML, CSS y JavaScript vanilla con fetch API
-- **Base de datos**: SQLite con migraciones automáticas
-- **API RESTful**: Endpoints para crear y listar tareas
-- **Tests automáticos**: Cobertura de endpoints principales
-- **Configuración modular**: Variables de entorno y configuraciones por ambiente
-
----
-
-## ✨ Características
-
-- ✅ Formulario para añadir tareas con título y prioridad (baja, media, alta)
-- ✅ Lista dinámica de tareas que se actualiza sin recargar la página
-- ✅ API RESTful con Flask y blueprints modulares
-- ✅ Base de datos SQLite con migraciones automáticas
-- ✅ Configuración por variables de entorno
-- ✅ CORS configurado para comunicación frontend-backend
-- ✅ Tests automáticos con pytest
-- ✅ Estructura de proyecto profesional y escalable
+- **Registro e inicio de sesión** con autenticación JWT
+- **Crear, editar, eliminar y visualizar tareas** personales
+- **Gestión de prioridades** (alta, media, baja)
+- **Sesión persistente** que se mantiene al recargar la página
+- **Interfaz moderna y responsive** con React y Tailwind CSS
+- **API REST completa** con endpoints protegidos
+- **Base de datos** con migraciones automáticas
+- **Tests automáticos** para verificar la funcionalidad
 
 ---
 
-## 📁 Estructura del Proyecto
+## 🏗️ Arquitectura del Proyecto
 
 ```
-simulacroEx2/
+SimulacroExamen2/
 │
-├── backend/
-│   ├── app.py                    # Punto de entrada de la aplicación
+├── backend/                    # API Flask con JWT
+│   ├── app.py                 # Punto de entrada de la aplicación
 │   ├── config/
-│   │   └── settings.py           # Configuraciones por ambiente
+│   │   └── settings.py        # Configuración de entornos
 │   ├── models/
 │   │   ├── __init__.py
-│   │   └── Tarea.py              # Modelo de datos para tareas
+│   │   ├── Usuario.py         # Modelo de usuarios
+│   │   └── Tarea.py          # Modelo de tareas
 │   ├── api/
-│   │   ├── __init__.py           # Blueprint de la API
-│   │   └── tareas.py             # Endpoints de tareas
+│   │   ├── __init__.py
+│   │   ├── auth.py           # Endpoints de autenticación
+│   │   └── tareas.py         # Endpoints de tareas (CRUD)
 │   ├── instance/
-│   │   └── tareas.db             # Base de datos SQLite (no subir a git)
-│   ├── migrations/               # Carpeta autogenerada por Flask-Migrate
+│   │   └── tareas.db         # Base de datos SQLite
+│   ├── migrations/           # Migraciones de BD (autogenerado)
 │   ├── tests/
 │   │   ├── __init__.py
-│   │   └── test_api.py           # Tests automáticos
-│   ├── requirements.txt          # Dependencias de Python
-│   └── .env                      # Variables de entorno (no subir a git)
+│   │   └── test_api.py       # Tests automáticos
+│   ├── requirements.txt      # Dependencias Python
+│   └── .env                  # Variables de entorno
 │
-├── frontend/
-│   ├── index.html                # Página principal
-│   ├── app.js                    # Lógica JavaScript
-│   └── style.css                 # Estilos CSS
+├── frontend/                  # Aplicación React
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Login.jsx     # Componente de login
+│   │   │   ├── Register.jsx  # Componente de registro
+│   │   │   ├── TaskList.jsx  # Lista de tareas
+│   │   │   ├── TaskForm.jsx  # Formulario de tareas
+│   │   │   └── TaskItem.jsx  # Tarea individual
+│   │   ├── api/
+│   │   │   └── axios.js      # Configuración de Axios
+│   │   ├── App.jsx           # Componente principal
+│   │   └── main.jsx          # Punto de entrada
+│   ├── package.json          # Dependencias Node.js
+│   ├── vite.config.js        # Configuración de Vite
+│   └── tailwind.config.js    # Configuración de Tailwind
 │
-├── .gitignore                    # Archivos a ignorar en git
-└── README.md                     # Este archivo
+├── .gitignore                # Archivos a ignorar en Git
+└── README.md                 # Este archivo
 ```
 
 ---
 
-## 🔧 Requisitos
+## 🚀 Instalación y Configuración
 
-- **Python 3.8 o superior**
-- **pip** (gestor de paquetes de Python)
-- **Virtualenv** (opcional, pero recomendado)
-- **Navegador web moderno** (Chrome, Firefox, Safari, Edge)
-- **Git** (para clonar el repositorio)
+### Prerrequisitos
 
----
+- **Python 3.8+**
+- **Node.js 16+**
+- **npm** o **yarn**
+- **Git**
 
-## ⚙️ Configuración y variables de entorno
+### 1. Clonar el Repositorio
 
-Crea un archivo `.env` en la carpeta `backend/` con la siguiente configuración:
+```bash
+git clone <url-del-repositorio>
+cd SimulacroExamen2
+```
 
+### 2. Configuración del Backend
+
+```bash
+cd backend
+
+# Crear entorno virtual
+python -m venv venv
+
+# Activar entorno virtual
+# En Windows:
+venv\Scripts\activate
+# En Linux/Mac:
+source venv/bin/activate
+
+# Instalar dependencias
+pip install -r requirements.txt
+
+# Crear carpeta para la base de datos
+mkdir instance
+
+# Configurar variables de entorno
+cp .env.example .env
+# Editar .env con tus valores
+```
+
+**Archivo `.env` de ejemplo:**
 ```env
 FLASK_ENV=development
-JWT_SECRET_KEY=super-secret-key
+JWT_SECRET_KEY=tu-clave-secreta-super-segura
 DATABASE_URI=sqlite:///instance/tareas.db
 SESSION_COOKIE_SECURE=False
 CSRF_ENABLED=True
-CORS_ORIGINS=http://localhost:3000
-STRIPE_SECRET_KEY=sk_test_default_key
+CORS_ORIGINS=http://localhost:5173
 ```
 
-**Nota importante**: Ajusta la ruta de `DATABASE_URI` según tu sistema operativo:
-- **Windows**: `sqlite:///C:/ruta/completa/al/proyecto/backend/instance/tareas.db`
-- **Linux/Mac**: `sqlite:///instance/tareas.db` (ruta relativa)
-
----
-
-## 🚀 Instalación y ejecución
-
-### Backend
-
-1. **Clona el repositorio y entra en la carpeta backend:**
-   ```bash
-   git clone https://github.com/CarlotadeMiguel/simulacroEx2.git
-   cd simulacroEx2/backend
-   ```
-
-2. **Crea y activa el entorno virtual:**
-   ```bash
-   python -m venv venv
-   
-   # En Windows:
-   venv\Scripts\activate
-   
-   # En Linux/Mac:
-   source venv/bin/activate
-   ```
-
-3. **Instala las dependencias:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Crea la carpeta `instance/` si no existe:**
-   ```bash
-   mkdir instance
-   ```
-
-5. **Configura el archivo `.env`** (ver sección anterior)
-
-6. **Ejecuta las migraciones de base de datos:**
-   ```bash
-   # Inicializar migraciones (solo la primera vez)
-   flask db init
-   
-   # Crear migración para la tabla de tareas
-   flask db migrate -m "Crear tabla tasks"
-   
-   # Aplicar migración a la base de datos
-   flask db upgrade
-   ```
-
-7. **Configura la variable de entorno FLASK_APP:**
-   ```bash
-   # En Windows (PowerShell):
-   $env:FLASK_APP = "app.py"
-   
-   # En Windows (CMD):
-   set FLASK_APP=app.py
-   
-   # En Linux/Mac:
-   export FLASK_APP=app.py
-   ```
-
-8. **Inicia el servidor Flask:**
-   ```bash
-   flask run
-   ```
-   El backend estará disponible en `http://localhost:5000/`
-
-### Frontend
-
-1. **Navega a la carpeta frontend:**
-   ```bash
-   cd ../frontend
-   ```
-
-2. **Abre `index.html` en tu navegador web:**
-   - Puedes hacer doble clic en el archivo
-   - O usar un servidor local simple:
-     ```bash
-     # Con Python 3:
-     python -m http.server 8000
-     
-     # Luego ve a http://localhost:8000
-     ```
-
-3. **¡Listo!** El frontend se conectará automáticamente al backend usando fetch API.
-
----
-
-## 🗄️ Migraciones y base de datos
-
-El proyecto usa **Flask-Migrate** para gestionar los cambios en la base de datos de forma automática y controlada.
-
-### Comandos útiles de migraciones:
-
+**Inicializar base de datos:**
 ```bash
-# Inicializar migraciones (solo la primera vez)
+# Configurar Flask
+set FLASK_APP=app.py        # Windows
+export FLASK_APP=app.py     # Linux/Mac
+
+# Crear migraciones
 flask db init
-
-# Crear una nueva migración después de cambiar modelos
-flask db migrate -m "Descripción del cambio"
-
-# Aplicar migraciones pendientes
+flask db migrate -m "Crear tablas usuarios y tareas"
 flask db upgrade
-
-# Ver historial de migraciones
-flask db history
-
-# Revertir a una migración anterior
-flask db downgrade
 ```
 
-### Modelo de datos actual:
+**Ejecutar el backend:**
+```bash
+flask run
+# El servidor estará en http://localhost:5000
+```
 
-La tabla `tasks` contiene:
-- `id`: Clave primaria (entero)
-- `title`: Título de la tarea (string, obligatorio)
-- `priority`: Prioridad de la tarea (string: "baja", "media", "alta")
+### 3. Configuración del Frontend
+
+```bash
+cd frontend
+
+# Instalar dependencias
+npm install
+
+# Ejecutar en modo desarrollo
+npm run dev
+# La aplicación estará en http://localhost:5173
+```
 
 ---
 
-## 🌐 API: Endpoints principales
+## 🔑 API Endpoints
 
-### Base URL: `http://localhost:5000/api`
+### Autenticación
 
-| Método | Endpoint | Descripción | Parámetros |
-|--------|----------|-------------|------------|
-| GET | `/tasks` | Obtener todas las tareas | Ninguno |
-| POST | `/tasks` | Crear una nueva tarea | `title`, `priority` |
+| Método | Endpoint | Descripción | Autenticación |
+|--------|----------|-------------|---------------|
+| POST | `/api/auth/registro` | Registrar nuevo usuario | No |
+| POST | `/api/auth/login` | Iniciar sesión | No |
 
-### Ejemplos de uso:
-
-**GET /api/tasks**
+**Ejemplo de registro:**
 ```bash
-curl http://localhost:5000/api/tasks
-```
-Respuesta:
-```json
-[
-  {
-    "id": 1,
-    "title": "Estudiar Flask",
-    "priority": "alta"
-  },
-  {
-    "id": 2,
-    "title": "Hacer la compra",
-    "priority": "media"
-  }
-]
-```
-
-**POST /api/tasks**
-```bash
-curl -X POST http://localhost:5000/api/tasks \
+curl -X POST http://localhost:5000/api/auth/registro \
   -H "Content-Type: application/json" \
-  -d '{"title": "Nueva tarea", "priority": "baja"}'
+  -d '{"email":"usuario@example.com", "password":"mipassword"}'
 ```
-Respuesta:
+
+**Ejemplo de login:**
+```bash
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"usuario@example.com", "password":"mipassword"}'
+```
+
+### Gestión de Tareas (Protegidas con JWT)
+
+| Método | Endpoint | Descripción | Autenticación |
+|--------|----------|-------------|---------------|
+| GET | `/api/tareas` | Listar tareas del usuario | JWT requerido |
+| POST | `/api/tareas` | Crear nueva tarea | JWT requerido |
+| GET | `/api/tareas/{id}` | Obtener tarea específica | JWT requerido |
+| PUT | `/api/tareas/{id}` | Actualizar tarea | JWT requerido |
+| DELETE | `/api/tareas/{id}` | Eliminar tarea | JWT requerido |
+
+**Ejemplo de crear tarea:**
+```bash
+curl -X POST http://localhost:5000/api/tareas \
+  -H "Authorization: Bearer <TOKEN_JWT>" \
+  -H "Content-Type: application/json" \
+  -d '{"titulo":"Mi tarea", "prioridad":"alta", "descripcion":"Detalles opcionales"}'
+```
+
+**Estructura de datos de tarea:**
 ```json
 {
-  "id": 3,
-  "title": "Nueva tarea",
-  "priority": "baja"
+  "id": 1,
+  "titulo": "Completar proyecto",
+  "prioridad": "alta",
+  "descripcion": "Finalizar todas las funcionalidades",
+  "completada": false,
+  "usuario_id": 1
 }
 ```
 
 ---
 
+## 🎨 Características del Frontend
+
+### Tecnologías Utilizadas
+
+- **React 18** - Framework de UI
+- **Tailwind CSS** - Framework de CSS utilitario
+- **Axios** - Cliente HTTP
+- **Vite** - Bundler y servidor de desarrollo
+
+### Funcionalidades Implementadas
+
+- ✅ **Login y Registro** con validación de formularios
+- ✅ **Sesión persistente** usando localStorage
+- ✅ **CRUD completo de tareas** (crear, leer, actualizar, eliminar)
+- ✅ **Interfaz responsive** con Tailwind CSS
+- ✅ **Feedback visual** para errores y éxito
+- ✅ **Loading states** durante las peticiones
+- ✅ **Navegación fluida** entre formularios
+- ✅ **Auto-login** tras registro exitoso
+
+### Componentes Principales
+
+- **App.jsx** - Manejo de autenticación y rutas principales
+- **Login.jsx** - Formulario de inicio de sesión
+- **Register.jsx** - Formulario de registro con auto-login
+- **TaskList.jsx** - Gestión completa de tareas (lista, crear, editar, eliminar)
+- **TaskForm.jsx** - Formulario reutilizable para crear/editar tareas
+- **TaskItem.jsx** - Componente individual de tarea
+
+---
+
 ## 🧪 Testing
 
-### Ejecutar tests automáticos:
+### Ejecutar Tests del Backend
 
-1. **Asegúrate de estar en la carpeta backend con el entorno virtual activado**
-2. **Ejecuta todos los tests:**
-   ```bash
-   pytest
-   ```
-3. **Ejecutar tests con más detalle:**
-   ```bash
-   pytest -v
-   ```
-4. **Ejecutar tests de un archivo específico:**
-   ```bash
-   pytest tests/test_api.py
-   ```
+```bash
+cd backend
+pytest
+# o
+pytest tests/ -v
+```
 
-### Cobertura actual de tests:
-- ✅ GET /api/tasks - Obtener lista de tareas
-- ✅ POST /api/tasks - Crear nueva tarea
-- ✅ Validación de respuestas JSON
-- ✅ Códigos de estado HTTP correctos
+### Tests Incluidos
+
+- ✅ Test de endpoints de autenticación (registro/login)
+- ✅ Test de CRUD de tareas con JWT
+- ✅ Test de validaciones y errores
+- ✅ Test de asociación usuario-tareas
 
 ---
 
-## 📋 Estructura de archivos clave
+## 🔧 Configuración Avanzada
 
-### Backend - app.py
-```python
-# Punto de entrada principal de la aplicación Flask
-# Configura la app, base de datos, migraciones y blueprints
-```
+### Proxy de Desarrollo
 
-### Backend - config/settings.py
-```python
-# Configuraciones por ambiente (desarrollo/producción)
-# Manejo de variables de entorno
-```
+El frontend está configurado con un proxy en `vite.config.js` que redirige automáticamente las peticiones `/api` al backend Flask:
 
-### Backend - models/Tarea.py
-```python
-# Modelo SQLAlchemy para la tabla de tareas
-# Define la estructura de datos
-```
-
-### Backend - api/tareas.py
-```python
-# Endpoints de la API REST
-# Lógica de negocio para crear y listar tareas
-```
-
-### Frontend - app.js
 ```javascript
-// Lógica JavaScript para:
-// - Fetch de tareas al cargar la página
-// - Envío de formulario
-// - Actualización dinámica del DOM
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+    },
+  },
+});
 ```
 
-### Frontend - index.html
-```html
-<!-- Estructura HTML con formulario y lista de tareas -->
+### Interceptor de Axios
+
+El frontend incluye un interceptor de Axios que añade automáticamente el token JWT a todas las peticiones:
+
+```javascript
+client.interceptors.request.use(config => {
+  const token = localStorage.getItem("jwt_token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 ```
 
 ---
 
-## 🔧 Resolución de problemas comunes
+## 🔒 Seguridad
 
-### Error: "ModuleNotFoundError: No module named 'models'"
-**Solución**: Asegúrate de tener archivos `__init__.py` en las carpetas `models/` y `api/`.
+### Funcionalidades de Seguridad Implementadas
 
-### Error: "sqlite3.OperationalError: unable to open database file"
-**Solución**: 
-1. Crea la carpeta `instance/` manualmente: `mkdir instance`
-2. Verifica que la ruta en `.env` sea correcta para tu sistema
+- **Autenticación JWT** con tokens que expiran en 2 horas
+- **Hasheo de contraseñas** con bcrypt
+- **CORS configurado** para permitir solo orígenes específicos
+- **Validación de datos** en backend y frontend
+- **Rutas protegidas** que requieren autenticación
+- **Asociación usuario-tareas** para aislamiento de datos
 
-### Error: "CORS policy: No 'Access-Control-Allow-Origin' header"
-**Solución**: Verifica que Flask-CORS esté instalado y configurado en `app.py`:
-```python
-from flask_cors import CORS
-CORS(app, origins=app.config.get('CORS_ORIGINS', '*'))
+### Variables de Entorno Sensibles
+
+```env
+JWT_SECRET_KEY=tu-clave-secreta-muy-segura-para-produccion
+DATABASE_URI=sqlite:///instance/tareas.db
+CORS_ORIGINS=http://localhost:5173,https://tu-dominio.com
 ```
 
-### Error: "No such command 'db'"
-**Solución**: 
-1. Instala Flask-Migrate: `pip install flask-migrate`
-2. Configura FLASK_APP: `export FLASK_APP=app.py`
+---
 
-### Frontend no se conecta al backend
-**Solución**: 
-1. Verifica que el backend esté ejecutándose en `http://localhost:5000`
-2. Revisa la configuración de CORS_ORIGINS en `.env`
-3. Asegúrate de que no hay errores en la consola del navegador
+## 📦 Despliegue
+
+### Backend (Flask)
+
+```bash
+# Instalar dependencias de producción
+pip install -r requirements.txt
+
+# Configurar variables de entorno para producción
+export FLASK_ENV=production
+export JWT_SECRET_KEY=tu-clave-secreta-de-produccion
+
+# Aplicar migraciones
+flask db upgrade
+
+# Ejecutar con gunicorn (recomendado para producción)
+pip install gunicorn
+gunicorn -w 4 -b 0.0.0.0:5000 app:app
+```
+
+### Frontend (React)
+
+```bash
+# Construir para producción
+npm run build
+
+# Los archivos estáticos estarán en dist/
+# Puedes servirlos con cualquier servidor web (Nginx, Apache, etc.)
+```
 
 ---
 
-## 📝 Notas y buenas prácticas
+## 🐛 Solución de Problemas Comunes
 
-### Seguridad:
-- ❌ **NO subas** archivos `.env` ni `instance/tareas.db` al repositorio
-- ✅ **SÍ incluye** la carpeta `migrations/` en el control de versiones
-- ✅ Usa `.gitignore` para excluir archivos sensibles
+### Error 422 "Not enough segments"
 
-### Desarrollo:
-- 🔄 Si cambias los modelos, ejecuta `flask db migrate` y `flask db upgrade`
-- 🧪 Ejecuta tests regularmente con `pytest`
-- 📝 Documenta nuevos endpoints en este README
-- 🏗️ Mantén la estructura modular del proyecto
+**Causa:** Token JWT inválido o mal formado
+**Solución:** Verificar que el token se envía correctamente en el header Authorization
 
-### Producción:
-- 🔒 Cambia `FLASK_ENV` a `production` en el archivo `.env`
-- 🗄️ Usa una base de datos más robusta (PostgreSQL, MySQL)
-- 🔐 Configura secrets más seguros para JWT_SECRET_KEY
-- 🌐 Configura CORS_ORIGINS con dominios específicos
+### Error de CORS
 
----
+**Causa:** Frontend y backend en diferentes puertos
+**Solución:** Verificar configuración de CORS en Flask y proxy en Vite
 
-## 📚 Recursos útiles
+### Base de datos bloqueada
 
-- [Documentación Flask](https://flask.palletsprojects.com/)
-- [Documentación Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/)
-- [Documentación Flask-Migrate](https://flask-migrate.readthedocs.io/)
-- [Documentación Flask-CORS](https://flask-cors.readthedocs.io/)
-- [Guía de Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+**Causa:** Múltiples instancias accediendo a SQLite
+**Solución:** Cerrar todas las instancias de Flask y reiniciar
+
+### Dependencias no encontradas
+
+**Causa:** Entorno virtual no activado o dependencias no instaladas
+**Solución:** Activar entorno virtual y ejecutar `pip install -r requirements.txt`
 
 ---
 
-## 👩‍💻 Autoría
+## 🛠️ Scripts Útiles
 
-Desarrollado por [CarlotadeMiguel](https://github.com/CarlotadeMiguel) como simulacro de examen del Módulo 2.
+### Backend
 
-**Repositorio**: https://github.com/CarlotadeMiguel/simulacroEx2
+```bash
+# Crear nueva migración
+flask db migrate -m "Descripcion del cambio"
+
+# Aplicar migraciones
+flask db upgrade
+
+# Ejecutar tests
+pytest
+
+# Ejecutar con debug
+flask run --debug
+```
+
+### Frontend
+
+```bash
+# Instalar dependencias
+npm install
+
+# Desarrollo
+npm run dev
+
+# Construir para producción
+npm run build
+
+# Vista previa de producción
+npm run preview
+```
+
+---
+
+## 📚 Recursos y Referencias
+
+- [Documentación de Flask](https://flask.palletsprojects.com/)
+- [Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/)
+- [React Documentation](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Axios Documentation](https://axios-http.com/)
+- [Vite Documentation](https://vitejs.dev/)
+
+---
+
+## 👥 Contribución
+
+Este proyecto fue desarrollado como simulacro de examen del Módulo 2. Las mejoras y sugerencias son bienvenidas a través de issues y pull requests.
+
+### Mejoras Futuras Sugeridas
+
+- [ ] Implementar roles de usuario (admin, user)
+- [ ] Añadir filtros y búsqueda de tareas
+- [ ] Implementar notificaciones push
+- [ ] Añadir fechas de vencimiento
+- [ ] Implementar categorías de tareas
+- [ ] Añadir tests end-to-end con Cypress
+- [ ] Implementar PWA (Progressive Web App)
+- [ ] Añadir documentación de API con Swagger
 
 ---
 
 ## 📄 Licencia
 
-Este proyecto es de uso educativo y fue desarrollado como práctica de simulacro de examen.
+Este proyecto es de uso educativo y está disponible bajo la licencia MIT.
 
 ---
 
-**¡Gracias por revisar este proyecto! Si tienes preguntas o sugerencias, no dudes en crear un issue en el repositorio.**
+**Desarrollado con ❤️ para el Simulacro de Examen Módulo 2**
+
+*¿Tienes preguntas? Consulta la documentación o abre un issue en el repositorio.*
