@@ -6,11 +6,14 @@ from models.Tarea import db
 from flask_migrate import Migrate
 from api import api_bp
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
 app.config.from_object(get_config())
+
+CORS(app, origins=app.config.get('CORS_ORIGINS', '*'))
 
 db.init_app(app)
 migrate = Migrate(app, db)
