@@ -1,6 +1,6 @@
 //src/components/Login.jsx
-
 import { useState } from "react";
+import axios from "../api/axios";
 
 export default function Login({ onLogin }) {
   const [email, setEmail] = useState("");
@@ -11,19 +11,18 @@ export default function Login({ onLogin }) {
     e.preventDefault();
     setError("");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
-      if (res.ok && data.access_token) {
+      const data = await axios.post("/auth/login", { email, password });
+      if (data.access_token) {
         onLogin(data.access_token);
       } else {
         setError(data.error || "Credenciales incorrectas");
       }
-    } catch {
-      setError("Error de red o servidor");
+    } catch (err) {
+      setError(
+        err.response?.data?.error ||
+        err.response?.data?.msg ||
+        "Error de red o servidor"
+      );
     }
   };
 
